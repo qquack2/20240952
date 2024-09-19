@@ -8,7 +8,7 @@ int main()
     int count;
     int stock[MAX_PRODUCTS];
     int id, sold, i;
-    int total = 0;
+    int soldTotal = 0, initiaTotal = 0;
 
     do {
         printf("상품 개수(종류)입력 (1 ~ 100): ");
@@ -18,7 +18,7 @@ int main()
     printf("상품 별 입고수량 입력: ");
     for (i = 0; i < count; i++) {
         scanf("%d", &stock[i]);
-        total += stock[i];
+        initiaTotal += stock[i];
     }
 
     printf("상품 별 판매수량을 입력: ");
@@ -26,7 +26,7 @@ int main()
         scanf("%d", &sold);
         if (sold <= stock[i]) {
             stock[i] -= sold;
-            total -= sold;
+            soldTotal += sold;
         }
         else {
             printf("판매 수량이 재고보다 많음. 최대 판매 가능 수량: %d\n", stock[i]);
@@ -51,6 +51,8 @@ int main()
             printf("잘못된 ID입니다. 다시 입력\n");
         }
     }
+    printf("총 판매량 %d (판매율 %.2f%%) ",soldTotal, ((double)soldTotal / initiaTotal) * 100);
+    
 
 
 
