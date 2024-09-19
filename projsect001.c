@@ -7,54 +7,74 @@ int main()
 {
     int count;
     int stock[MAX_PRODUCTS];
-    int id, sold, i;
-    int soldTotal = 0, initiaTotal = 0;
+    int sold[MAX_PRODUCTS];
+    int initialStock[MAX_PRODUCTS];
+    int id, soldInput, i;
+    int soldTotal = 0, initialTotal = 0;
 
     do {
-        printf("»óÇ° °³¼ö(Á¾·ù)ÀÔ·Â (1 ~ 100): ");
+        printf("ìƒí’ˆ ê°œìˆ˜(ì¢…ë¥˜)ì…ë ¥ (1 ~ 100): ");
         scanf("%d", &count);
     } while (count < 1 || count > 100);
 
-    printf("»óÇ° º° ÀÔ°í¼ö·® ÀÔ·Â: ");
+    printf("ìƒí’ˆ ë³„ ì…ê³ ìˆ˜ëŸ‰ ì…ë ¥: ");
     for (i = 0; i < count; i++) {
         scanf("%d", &stock[i]);
-        initiaTotal += stock[i];
+        initialStock[i] = stock[i];
+        sold[i] = 0;
+        initialTotal += stock[i];
     }
 
-    printf("»óÇ° º° ÆÇ¸Å¼ö·®À» ÀÔ·Â: ");
+    printf("ìƒí’ˆ ë³„ íŒë§¤ìˆ˜ëŸ‰ì„ ì…ë ¥: ");
     for (i = 0; i < count; i++) {
-        scanf("%d", &sold);
-        if (sold <= stock[i]) {
-            stock[i] -= sold;
-            soldTotal += sold;
+        scanf("%d", &soldInput);
+        if (soldInput <= stock[i]) {
+            stock[i] -= soldInput;
+            sold[i] = soldInput;
+            soldTotal += soldInput;
         }
         else {
-            printf("ÆÇ¸Å ¼ö·®ÀÌ Àç°íº¸´Ù ¸¹À½. ÃÖ´ë ÆÇ¸Å °¡´É ¼ö·®: %d\n", stock[i]);
+            printf("íŒë§¤ ìˆ˜ëŸ‰ì´ ì¬ê³ ë³´ë‹¤ ë§ìŒ. ìµœëŒ€ íŒë§¤ ê°€ëŠ¥ ìˆ˜ëŸ‰: %d\n", stock[i]);
         }
     }
 
     while (1) {
-        printf("Àç°í ¼ö·®À» È®ÀÎÇÒ »óÇ° ID¸¦ ÀÔ·Â (1 ~ %d, Á¾·á´Â 0): ", count);
+        printf("ì¬ê³  ìˆ˜ëŸ‰ì„ í™•ì¸í•  ìƒí’ˆ IDë¥¼ ì…ë ¥ (1 ~ %d, ì¢…ë£ŒëŠ” 0): ", count);
         scanf("%d", &id);
 
         if (id == 0) {
             break;
         }
         else if (id > 0 && id <= count) {
-            printf("³²Àº Àç°í ¼ö·® : ");
+            printf("ë‚¨ì€ ì¬ê³  ìˆ˜ëŸ‰ : ");
             for (i = 0; i < count; i++) {
                 printf("%d ", stock[i]);
             }
             printf("\n");
         }
         else {
-            printf("Àß¸øµÈ IDÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·Â\n");
+            printf("ì˜ëª»ëœ IDì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥\n");
         }
     }
-    printf("ÃÑ ÆÇ¸Å·® %d (ÆÇ¸ÅÀ² %.2f%%) ",soldTotal, ((double)soldTotal / initiaTotal) * 100);
-    
 
+    printf("ì´ íŒë§¤ëŸ‰ %d (íŒë§¤ìœ¨ %.2f%%)\n", soldTotal, ((double)soldTotal / initialTotal) * 100);
 
+    int maxSold = sold[0], minSold = sold[0];
+    int maxID = 1, minID = 1;
+
+    for (i = 1; i < count; i++) {
+        if (sold[i] > maxSold) {
+            maxSold = sold[i];
+            maxID = i + 1;
+        }
+        if (sold[i] < minSold) {
+            minSold = sold[i];
+            minID = i + 1;
+        }
+    }
+
+    printf("ê°€ì¥ ë§ì´ íŒë§¤ëœ ìƒí’ˆ: ID %d, íŒë§¤ëŸ‰ %d\n", maxID, maxSold);
+    printf("ê°€ì¥ ì ê²Œ íŒë§¤ëœ ìƒí’ˆ: ID %d, íŒë§¤ëŸ‰ %d\n", minID, minSold);
 
     return 0;
 }
