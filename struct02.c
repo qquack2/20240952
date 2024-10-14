@@ -1,26 +1,21 @@
 #include <stdio.h>
-
+#include <math.h>
 
 typedef struct point {
 	int x;
 	int y;
 } POINT;
 
-int main()
-{
-	struct point p1 = { 10, 20 };
-	POINT p2 = { 20, 20 };
-	POINT* p3 = &p2;
-	
-	printf("p1.x = %d, p1.y = %d\n", p1.x, p1.y);
-	printf("p2.x = %d, p2.y = %d\n", p2.x, p2.y);
-	printf("p3->x = %d, p3->y = %d\n", p3->x, p3->y);
+typedef struct {
+	POINT center;
+	double radius;
+}CIRCLE;
 
-	p3 = &p1;
-	printf("p3->x = %d, p3->y = %d\n", (*p3).x, (*p3).y);
+typedef struct rect {
+	POINT lb;
+	POINT rt;
+}RECT;
 
-
-	return 0;
+double dist(POINT p1, struct point p2) {
+	return sqrt(pow((p2.x - p1.x), 2) + pow((p2.y - p1.y), 2));
 }
-
-	
