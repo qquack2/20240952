@@ -1,46 +1,67 @@
 #include <stdio.h>
-#include <math.h>
+#include <time.h>
+#include <stdlib.h>
+
+#define SIZE 100
+
 
 typedef struct point {
 	int x;
 	int y;
 } POINT;
 
-typedef struct circle{
-	POINT center;
-	double radius;
-}CIRCLE;
+void input_random_point(POINT* p, int size)
+{
+	srand((time(NULL)));
+	for (int i = 0; i < size; i++) {
+		(p+i)->x = rand() % 101;
+		(p+i)->y = rand() % 101;
+	}
+}
 
-typedef struct rect {
-	POINT lb;
-	POINT rt;
-}RECT;
+void swap_point(POINT* p1, POINT* p2)
+{
+	POINT temp;
+	temp = *p1;
+	*p1 = *p2;
+	*p2 = temp;
+}
 
-double dist(POINT p1, POINT p2) {
-	return sqrt(pow((p2.x - p1.x), 2) + pow((p2.y - p1.y), 2));
+void print_point_array(POINT p[], int size)
+{
+	for (int i = 0; i < size; i++) {
+		printf("p[%3d] : (%3d, %3d)\n", i, p[i].x, p[i].y);
+	}
+}
+
+void selection_point(POINT* point, int size)
+{
+	int least;
+	for (int i = 0; i < SIZE - 1; i++) {
+		least = i;
+		for (int j = i + 1; j < SIZE; j++) {
+			if (point[least].x > point[j].x) least = j;
+			else if (point[least].x == point[j].x && point[least].y > point[j].y)
+				least = j;
+		}
+		swap_point(&point[i], point + least);
+	}
 }
 
 int main()
 {
-	CIRCLE c1 = { {10, 10}, 4.5};
-	CIRCLE c2;
-	c2.radius = 5.5;
-	c2.center.x = 10;
-	c2.center.y = 20;
-	POINT point = { 10,15 };
-	double distance;
+	POINT point[SIZE] = { 0 };
+	POINT temp = { 0,0 };
+	int least;
 
-	printf("CIRCLE1 = (%d, %d), r : %lf", c1.center.x, c1.center.y, c1.radius);
-	printf("CIRCLE2 = (%d, %d), r : %lf", c2.center.x, c2.center.y, c2.radius);
-	printf("point = (%d, %d)\n", point.x, point.y);
+	input_random_point(point, SIZE);
 
-	distance = dist(c2.center, point);
-	if (distance <= c2.radius) {
-		printf("원 안에 있습니다.\n");
-	}
-	else {
-		printf("원 밖에 있습니다.\n");
-	}
+	print_point_array(point, SIZE);
+
+	selection_point(point, SIZE);
+
+	printf("after sorting>>>>>>>>>>>>>>\n");
+	print_point_array(point, SIZE);
 
 	return 0;
 }
